@@ -19,28 +19,28 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("api/{postId}/comment")
+    @PostMapping("/{postId}/comment")
     public ResponseEntity<CommentDto>createComment(@PathVariable(name = "postId") Long postId,
                                                   @Valid @RequestBody CommentDto commentDto){
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
-    @GetMapping("api/{postId}/comments")
+    @GetMapping("/{postId}/comments")
 
     public ResponseEntity<List<CommentDto>>getCommentsByPostId(@PathVariable(name = "postId") Long postId){
         return new ResponseEntity<>(commentService.getAllComments(postId), HttpStatus.OK);
     }
-    @GetMapping("api/{postId}/comments/{commentId}")
+    @GetMapping("/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto>getCommentById(@PathVariable(name = "postId") Long postId,
                                                      @PathVariable(name = "commentId") Long commentId){
         return new ResponseEntity<>(commentService.getCommentById(postId, commentId), HttpStatus.OK);
     }
-    @PutMapping("api/{postId}/comments/{commentId}")
+    @PutMapping("/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "postId") Long postId,
                                                      @PathVariable(name = "commentId") Long commentId,
                                                      @Valid @RequestBody CommentDto commentDto){
         return new ResponseEntity<>(commentService.updateComment(postId, commentId, commentDto), HttpStatus.OK);
     }
-    @DeleteMapping("api/{postId}/comments/{commentId}")
+    @DeleteMapping("/{postId}/comments/{commentId}")
     public ResponseEntity<Void> deleteCommentById(@PathVariable(name = "postId") Long postId,
                                                    @PathVariable(name = "commentId") Long commentId){
         commentService.deleteCommentById(postId, commentId);
