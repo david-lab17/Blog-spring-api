@@ -2,10 +2,12 @@ package com.deltacode.springbootblog.controller;
 
 import com.deltacode.springbootblog.entity.Role;
 import com.deltacode.springbootblog.entity.UserApp;
+import com.deltacode.springbootblog.payload.JWTAuthResponse;
 import com.deltacode.springbootblog.payload.LoginDto;
 import com.deltacode.springbootblog.payload.SignUpDto;
 import com.deltacode.springbootblog.repository.RoleRepository;
 import com.deltacode.springbootblog.repository.UserRepository;
+import com.deltacode.springbootblog.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,11 +35,17 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     @PostMapping("/login")
-    public ResponseEntity<String>authenticateUser(@RequestBody LoginDto loginDto){
-        Authentication authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),loginDto.getPassword()));
+    public ResponseEntity<JWTAuthResponse>authenticateUser(@RequestBody LoginDto loginDto){
+        Authentication authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),
+                 loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return ResponseEntity.ok("Login Successful");
+        //get token from token provider
+        String token= tokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JWTAuthResponse(token));
 
     }
     @PostMapping("/signup")
