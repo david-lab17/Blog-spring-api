@@ -8,6 +8,8 @@ import com.deltacode.springbootblog.payload.SignUpDto;
 import com.deltacode.springbootblog.repository.RoleRepository;
 import com.deltacode.springbootblog.repository.UserRepository;
 import com.deltacode.springbootblog.security.JwtTokenProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+@Api(value = "Auth Controller for Blog Rest Api")
 
 @RestController
 @RequestMapping("/api/auth")
+
 public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -39,6 +43,7 @@ public class AuthController {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/login")
+    @ApiOperation(value = "Login Api")
     public ResponseEntity<JWTAuthResponse>authenticateUser(@RequestBody LoginDto loginDto){
         Authentication authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(),
                  loginDto.getPassword()));
@@ -49,6 +54,7 @@ public class AuthController {
 
     }
     @PostMapping("/signup")
+    @ApiOperation(value = "Signup Api")
     public ResponseEntity<?>registerUser(@RequestBody SignUpDto signUpDto){
         //check if user already exists by username or email
         if(userRepository.existsByUsername(signUpDto.getUsername())){
