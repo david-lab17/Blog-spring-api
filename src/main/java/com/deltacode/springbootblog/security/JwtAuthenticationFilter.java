@@ -28,7 +28,7 @@ private JwtTokenProvider tokenProvider;
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         // get JWT (token) from http request
-        String token = getJWTfromRequest(request);
+        String token = getJWTFromRequest(request);
         // validate token
         if(StringUtils.hasText(token) && tokenProvider.validateToken(token)){
             // get username from token
@@ -47,10 +47,10 @@ private JwtTokenProvider tokenProvider;
     }
 
     // Bearer <accessToken>
-    private String getJWTfromRequest(HttpServletRequest request){
+    private String getJWTFromRequest(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
-            return bearerToken.substring(7, bearerToken.length());
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer " )){
+            return bearerToken.substring(7);
         }
         return null;
     }
