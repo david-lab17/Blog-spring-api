@@ -29,7 +29,7 @@ public class SpringFoxConfig {
                 "Spring Boot Blog REST API Documentation",
                 "1",
                 "Terms of service",
-                new Contact("David Charo", "https://agitated-tesla-ccf7b9.netlify.app/", "davidcharomakuba@gmail.com"),
+                new Contact("David Charo", "https://agitated-tesla-ccf7b9.netlify.app/", "davidmakuba@yahoo.com"),
                 "License of API",
                 "API license URL",
                 Collections.emptyList()
